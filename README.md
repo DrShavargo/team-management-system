@@ -8,7 +8,7 @@ A system to oversee student teams, built on Rails, for a software design class.
 
 ## Installation
 
-1. Clone the repository, then run:
+Clone the repository, then run:
 ```console
 bundle install
 rake db:migrate
