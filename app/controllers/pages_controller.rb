@@ -2,8 +2,8 @@ class PagesController < ApplicationController
   before_action :authenticate_user!
 
   def router
-    if current_user.authenticated?
-      path = projects_path
+    if user_signed_in?
+      path = home_path
     else
       path = new_user_session_path
     end
@@ -12,6 +12,6 @@ class PagesController < ApplicationController
   end
 
   def email_confirm_required
-    redirect_to root_path if current_user.authenticated?
+    redirect_to root_path if user_signed_in?
   end
 end
