@@ -51,9 +51,6 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
 
-  # Use a different logger for distributed setups.
-  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
-
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
@@ -76,4 +73,15 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Disable Rails's static asset server (Apache or nginx will already do this).
+  config.serve_static_assets = true
+
+  # Use a different logger for distributed setups.
+  STDOUT.sync = config.autoflush_log
+  logger = ActiveSupport::Logger.new(STDOUT)
+  logger.formatter = config.log_formatter
+  logger.level = logger.class.const_get(config.log_level.to_s.upcase)
+
+  config.logger = ActiveSupport::TaggedLogging.new(logger)
 end
