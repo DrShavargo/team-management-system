@@ -9,6 +9,7 @@
 <body>
   <%= render partial: 'layouts/brand_bar' %>
   <div class="container-fluid">
+    <%= render partial: '/layouts/flash' %>
     <%= content_for?(:content) ? yield(:content) : yield %>
   </div>
 </body>

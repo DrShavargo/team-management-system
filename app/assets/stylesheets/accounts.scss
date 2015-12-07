@@ -1,3 +1,18 @@
-// Place all the styles related to the accounts controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#account-settings {
+  margin: auto;
+
+  .form-actions {
+    clear: both;
+    text-align: right;
+    margin-right: 15px;
+  }
+
+  .account-info{
+    dt{
+      width: 80px;
+    }
+    dd{
+      margin-left: 100px;
+    }
+  }
+}

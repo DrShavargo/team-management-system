@@ -12,7 +12,7 @@ module ApplicationHelper
         c
       end
       content += content_tag :li, "", class: 'divider'
-      content += content_tag :li, link_to('Manage Account', account_path)
+      content += content_tag :li, link_to('Profile', account_path)
       content += content_tag :li, link_to('Logout', destroy_user_session_path, method: :delete)
     end
   end

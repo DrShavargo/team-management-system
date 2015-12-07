@@ -1,36 +1,38 @@
-<%= render partial: '/layouts/flash' %>
-
-<%= simple_form_for @account, url: account_path, method: :patch,
-          html: { class: 'form-horizontal' } do |f| %>
-  <div class="row">
-    <div class="col-sm-8">
-      <div class='lead col-sm-offset-4 col-sm-8'>
-        Personal Info
-      </div>
-      <div class="panel-body">
-          <%= f.input :name, required: true %>
-          <%= f.input :person_id, label: "ID" %>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class='panel panel-default'>
-        <div class='panel-heading'>
-          Account Info
+<div id="account-settings">
+  <%= simple_form_for @account, url: account_path, method: :patch,
+            wrapper: :input_group, html: { class: 'form-horizontal' } do |f| %>
+    <div class="row">
+      <div class="col-sm-7">
+        <div class='lead col-sm-offset-4 col-sm-8'>
+          Personal Info
         </div>
-        <div class="panel-body text-center">
-          <dl class='dl-horizontal'>
-            <dt>Email</dt>
-            <dd title=<%= @account.email %>><%= @account.email %></dd>
-            <dt>Password</dt><dd>****************</dd>
-          </dl>
-          <%= link_to "Change Password", edit_user_registration_path,
-            class: 'btn btn-primary btn-xs' %>
+        <div class="panel-body">
+            <%= f.input :name, required: true %>
+            <%= f.input :person_id, label: "ID", required: true %>
+        </div>
+        <div class="form-actions clearfix">
+          <%= f.submit "Save", class: "btn btn-warning" %>
+          <%= link_to "Cancel", account_path, class: 'btn btn-default cancel-link' %>
         </div>
       </div>
+      <div class="col-sm-3">
+        <div class='panel panel-default'>
+          <div class='panel-heading'>
+            Account Info
+          </div>
+          <div class="panel-body">
+            <dl class='dl-horizontal account-info'>
+              <dt>Email</dt>
+              <dd title=<%= @account.email %>><%= @account.email %></dd>
+              <dt>Password</dt><dd>****************</dd>
+            </dl>
+            <div class="text-center">
+              <%= link_to "Change Password", edit_user_registration_path,
+                class: 'btn btn-primary btn-xs' %>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="form-actions clearfix">
-      <%= f.submit "Save", class: "btn btn-warning" %>
-      <%= link_to "Cancel", account_path, class: 'btn btn-default cancel-link' %>
-    </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
