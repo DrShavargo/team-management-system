@@ -3,4 +3,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
          :validatable, :confirmable
+
+  def user_identifier
+    name || email
+  end
 end

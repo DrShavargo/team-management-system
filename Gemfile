@@ -15,6 +15,8 @@ gem 'devise', '~> 3.5', '>= 3.5.2'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'sprockets-rails', :require => 'sprockets/railtie'
 gem "rolify"
+gem 'font-awesome-rails'
+gem 'simple_form'
 
 group :development, :test do
   gem 'byebug'
@@ -22,6 +24,7 @@ group :development, :test do
   gem 'spring'
   gem 'thin'
   gem 'better_errors', '~> 2.1.0'
+  gem 'pry-rails'
 end
 
 group :production do

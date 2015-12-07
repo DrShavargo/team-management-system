@@ -1,0 +1,22 @@
+<% if user_signed_in? %>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <%= link_to root_path, class: "navbar-logo" do %>
+          <div class="navbar-brand">TMS</div>
+        <% end %>
+      </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <%= user_dropdown_text %>
+              </a>
+              <%= user_dropdown_menu %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+<% end %>

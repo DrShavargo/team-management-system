@@ -7,6 +7,9 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <%= yield %>
+  <%= render partial: 'layouts/brand_bar' %>
+  <div class="container-fluid">
+    <%= content_for?(:content) ? yield(:content) : yield %>
+  </div>
 </body>
 </html>
