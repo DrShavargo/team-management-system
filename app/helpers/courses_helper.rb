@@ -15,4 +15,13 @@ module CoursesHelper
         content_tag :i, '', class: 'fa fa-trash-o'
     end
   end
+
+  def register_course_button(course)
+    link_to register_course_path(course), class: 'btn btn-mini',
+      method: :post,
+      data: { confirm: 'Are you certain you want to register for this course?' },
+      id: 'register-course-button' do
+        content_tag :i, '', class: 'fa fa-user-plus'
+    end
+  end
 end

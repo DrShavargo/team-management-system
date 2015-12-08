@@ -1,0 +1,82 @@
+<div class="project-index">
+  <% if current_user.has_role?(:student) %>
+    <div class="panel panel-default" data-user='<%= current_user.id %>'>
+      <div class="panel-heading clearfix">
+        <%= link_to new_team_path(:course_id => @course.id), class: 'btn btn-large btn-primary pull-right',
+            data: { toggle: 'modal', target: '#modal-window', remote: true },
+            id: 'new_team_button' do %>
+              <i class="fa fa-plus"></i>
+              Create Team
+            <% end %>
+        <div class="project-title">
+          My Teams
+        </div>
+      </div>
+      <div class="panel-body">
+        <% if @my_team.empty? %>
+          Create a team to get started!
+        <% else %>
+          <table class="my-team-list table table-striped table-hover">
+            <thead>
+              <th>Team ID</th>
+              <th>Name</th>
+              <th>Created At</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </thead>
+            <tbody>
+              <tr data-team="<%= @my_team.id %>">
+                <td><%= @my_team.team_id %></td>
+                <td><%= @my_team.name %></td>
+                <td><%= @my_team.created_at %></td>
+                <td><%= @my_team.status %></td>
+                <td class="table-action">
+                  <%= edit_course_button(course) %>
+                  <%= delete_course_button(course) %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="panel panel-default" data-user='<%= current_user.id %>'>
+    <div class="panel-heading clearfix">
+      <div class="project-title">
+        All Teams
+      </div>
+    </div>
+    <div class="panel-body">
+      <% if @teams.empty? %>
+        <% if current_user.has_role?(:instructor) ? 'No Teams have been created!' : 'Create a team to get started!' %>
+        <% end %>
+      <% else %>
+        <table class="course-list table table-striped table-hover">
+          <thead>
+            <th>Team ID</th>
+            <th>Name</th>
+            <th>Created At</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>
+            <% @teams.each do |team| %>
+              <tr data-team="<%= team.id %>">
+                <td><%= team.team_id %></td>
+                <td><%= team.name %></td>
+                <td><%= team.created_at %></td>
+                <td><%= team.status %></td>
+                <td class="table-action">
+                  <%= edit_course_button(course) %>
+                  <%= delete_course_button(course) %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>

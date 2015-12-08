@@ -1,0 +1,25 @@
+<%= simple_form_for(@team, wrapper: :input_group,
+    input_html: {class: 'form-control'},
+    html: { class: 'form-horizontal' }) do |f| %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      <i class="fa fa-times"></i>
+    </button>
+    <h3 class='modal-title'>Setup Team</h3>
+  </div>
+  <div class="modal-body">
+    <div class="form-inputs">
+      <%= f.input :name, multiple: true, label: 'Name' %>
+      <% unless @students.empty? %>
+        <%=  f.collection_check_boxes :student_ids, @students, :id, :name %>
+      <% end %>
+      <%= f.hidden_field :course_id, value: @course.id %>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <%= f.button :submit, 'Create', class: "btn-warning" %>
+    <div class="error hide">
+      <div class="alert alert-error"></div>
+    </div>
+  </div>
+<% end %>

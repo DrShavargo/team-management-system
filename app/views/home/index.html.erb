@@ -1,42 +1,48 @@
-<% if current_user.has_role?(:instructor) %>
-  <div class="course-index">
-    <div class="panel panel-default" data-user='<%= current_user.id %>'>
-      <div class="panel-heading clearfix">
+<div class="course-index">
+  <div class="panel panel-default" data-user='<%= current_user.id %>'>
+    <div class="panel-heading clearfix">
+      <% if current_user.has_role?(:instructor) %>
         <%= link_to new_course_path, class: 'btn btn-large btn-primary pull-right',
             data: { toggle: 'modal', target: '#modal-window', remote: true },
             id: 'new_course_button' do %>
           <i class="fa fa-plus"></i>
           Create Course
         <% end %>
-        <div class="home-title">
-          Courses
-        </div>
-      </div>
-      <div class="panel-body">
-        <% if @courses.empty? %>
-          Create a course to get started!
-        <% else %>
-          <table class="course-list table table-striped table-hover">
-            <thead>
-              <th>Course Code</th>
-              <th>Actions</th>
-            </thead>
-            <tbody>
-              <% @courses.each do |course| %>
-                <tr data-course="<%= course.id %>">
-                  <td class="course-id">
-                    <%= course.course_code %>
-                  </td>
-                  <td class="table-action">
-                    <%= edit_course_button(course) %>
-                    <%= delete_course_button(course) %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        <% end %>
+      <% end %>
+      <div class="home-title">
+        Courses
       </div>
     </div>
+    <div class="panel-body">
+      <% if @courses.empty? %>
+        <% if current_user.has_role?(:instructor) ? 'Create a course to get started!' : 'No course has beed created yet, be patient!' %>
+        <% end %>
+      <% else %>
+        <table class="course-list table table-striped table-hover">
+          <thead>
+            <th>Course Code</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>
+            <% @courses.each do |course| %>
+              <tr data-course="<%= course.id %>">
+                <td class="course-id">
+                  <%= course.course_code %>
+                </td>
+                <td class="table-action">
+                  <% if current_user.has_role?(:instructor) %>
+                    <%= edit_course_button(course) %>
+                    <%= delete_course_button(course) %>
+                  <% else %>
+                    <%= register_course_button(course) %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
   </div>
-<% end %>
+</div>
+
