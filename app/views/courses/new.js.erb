@@ -1,0 +1,8 @@
+$('#modal-window .modal-content').html('<%= escape_javascript(render partial: 'new') %>');
+$('#modal-window').modal('show')
+
+$('#modal-window').on('shown.bs.modal', function() {
+  $('#course_deadline').datepicker({
+    format: "dd/mm/yy"
+  });
+});

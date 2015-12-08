@@ -15,8 +15,10 @@ gem 'devise', '~> 3.5', '>= 3.5.2'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'sprockets-rails', :require => 'sprockets/railtie'
 gem "rolify"
+
 gem 'font-awesome-rails'
 gem 'simple_form'
+gem 'bootstrap-datepicker-rails'
 
 group :development, :test do
   gem 'byebug'

@@ -24,6 +24,11 @@ ActiveRecord::Schema.define(version: 20151208000447) do
     t.integer  "instructor_id"
   end
 
+  create_table "courses_users", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "course_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string   "name"
     t.integer  "resource_id"
@@ -40,22 +45,17 @@ ActiveRecord::Schema.define(version: 20151208000447) do
     t.string "course_section"
   end
 
-  create_table "students_courses", id: false, force: :cascade do |t|
-    t.integer "student_id"
-    t.integer "course_id"
-  end
-
-  create_table "students_teams", id: false, force: :cascade do |t|
-    t.integer "student_id"
-    t.integer "team_id"
-  end
-
   create_table "teams", force: :cascade do |t|
     t.integer  "team_id"
     t.string   "name"
     t.datetime "created_at"
     t.string   "status"
     t.integer  "course_id"
+  end
+
+  create_table "teams_users", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "team_id"
   end
 
   create_table "users", force: :cascade do |t|

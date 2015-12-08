@@ -23,13 +23,15 @@
             </thead>
             <tbody>
               <% @courses.each do |course| %>
-                <td data-course="<%= course.id %>" class="course-id">
-                  <%= course.course_code %>
-                </td>
-                <td class="table-action">
-                  <%= edit_course_button(course) %>
-                  <%= delete_course_button(course) %>
-                </td>
+                <tr data-course="<%= course.id %>">
+                  <td class="course-id">
+                    <%= course.course_code %>
+                  </td>
+                  <td class="table-action">
+                    <%= edit_course_button(course) %>
+                    <%= delete_course_button(course) %>
+                  </td>
+                </tr>
               <% end %>
             </tbody>
           </table>
