@@ -1,3 +1,3 @@
 class Instructor < User
-  has_many :course, dependent: :destroy
+  has_many :courses, dependent: :destroy
 end

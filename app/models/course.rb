@@ -1,4 +1,5 @@
 class Course < ActiveRecord::Base
-  has_one :instructor
+  belongs_to :instructor
   has_many :teams, dependent: :destroy
+  has_and_belongs_to_many :students
 end

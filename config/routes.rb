@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   resources :students,  only: [:index, :create]
   resources :teams
   resource :account,    only: [:show, :update]
+  resources :courses
 end
