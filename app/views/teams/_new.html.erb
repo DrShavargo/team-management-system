@@ -10,7 +10,9 @@
   <div class="modal-body">
     <div class="form-inputs">
       <%= f.input :name, multiple: true, label: 'Name' %>
-      <% unless @students.empty? %>
+      <% if @students.empty? %>
+        There are no students without teams in this course!
+      <% else %>
         <%=  f.collection_check_boxes :student_ids, @students, :id, :name %>
       <% end %>
       <%= f.hidden_field :course_id, value: @course.id %>

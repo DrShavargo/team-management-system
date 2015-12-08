@@ -24,4 +24,13 @@ module CoursesHelper
         content_tag :i, '', class: 'fa fa-user-plus'
     end
   end
+
+  def unregister_course_button(course)
+    link_to unregister_course_path(course), class: 'btn btn-mini',
+      method: :post,
+      data: { confirm: 'Are you certain you want to unregister from this course?' },
+      id: 'unregister-course-button' do
+        content_tag :i, '', class: 'fa fa-user-times'
+    end
+  end
 end

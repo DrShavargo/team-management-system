@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :courses do
     member do
       post :register
+      post :unregister
     end
   end
 end

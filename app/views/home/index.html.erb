@@ -34,7 +34,11 @@
                     <%= edit_course_button(course) %>
                     <%= delete_course_button(course) %>
                   <% else %>
-                    <%= register_course_button(course) %>
+                    <% if current_user.is_registered?(course) %>
+                      <%= unregister_course_button(course) %>
+                    <% else %>
+                      <%= register_course_button(course) %>
+                    <% end %>
                   <% end %>
                 </td>
               </tr>

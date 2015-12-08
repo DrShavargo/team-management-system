@@ -7,7 +7,7 @@ class CoursesController < ApplicationController
       @teams = @course.teams
     else
       @teams = @course.teams.where(status: 'incomplete')
-      @my_team = current_user.teams.where(course_id: @course.id)
+      @my_team = current_user.teams.where(course_id: @course.id).first
     end
   end
 
@@ -16,8 +16,8 @@ class CoursesController < ApplicationController
   end
 
   def edit
-    course = current_user.courses.find(course_id)
-    unless course.valid?
+    @course = current_user.courses.find(course_id)
+    unless @course.valid?
       redirect_to root_path, alert: 'You cannot update this course!'
     end
   end
@@ -55,6 +55,20 @@ class CoursesController < ApplicationController
     course = Course.find(course_id)
     current_user.courses << course unless current_user.courses.include?(course)
     redirect_to course_path(course)
+  end
+
+  def unregister
+    course = Course.find(course_id)
+    course.students.delete(current_user)
+
+    team = current_user.teams.where(course_id: course.id).first
+    unless team.blank?
+      team.students.delete(current_user)
+      current_user.remove_role(:liaison, team) if current_user.has_role?(:liaison, team)
+      team.check_if_orphaned_after_user_removed
+    end
+
+    redirect_to root_path
   end
 
   def convert_date
