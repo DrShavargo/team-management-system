@@ -18,18 +18,27 @@ class TeamsController < ApplicationController
 
   def create
     course = current_user.courses.find(team_params[:course_id])
+    params[:team][:student_ids] = params[:team][:student_ids][0, course.max_students]
     team = course.teams.create(team_params)
     team.students << current_user
-    team.generate_from_create(team_params[:student_ids])
-    team.save
+    team.team_id = team.id
 
-    current_user.add_role(:liaison, team)
+    valid_student_count = team.check_and_set_status
+    if valid_student_count
+      team.save
 
-    if team.valid?
-      redirect_to team_path(team)
+      current_user.add_role(:liaison, team)
+
+      if team.valid?
+        flash[:success] = "Team created successfully!"
+        redirect_to team_path(team)
+      else
+        flash[:error] = team.errors.full_messages
+        redirect_to course_path(course)
+      end
     else
-      flash[:error] = team.errors.full_messages
-      redirect_to course_path(course)
+      team.destroy
+      redirect_to course_path(course), alert: 'Too many students selected.'
     end
   end
 
@@ -92,14 +101,22 @@ class TeamsController < ApplicationController
 
   def remove_student
     team = Team.find(params[:id])
+    course = team.course
     student = Student.find(params[:student_id])
     team.students.delete(student)
-    team.check_if_orphaned_after_user_removed
-    redirect_to team_path(team), notice: 'Student has been removed fromt he team.'
+    if (team.check_if_orphaned_after_user_removed)
+      redirect_to course_path(course), notice: 'Student has been removed fromt he team.'
+    else
+      redirect_to team_path(team), notice: 'Student has been removed fromt he team.'
+    end
   end
 
   def set_as_liaison
-    binding.pry
+    team = Team.find(params[:id])
+    student = Student.find(params[:student_id])
+    current_user.remove_role(:liaison, team)
+    student.add_role(:liaison, team)
+    redirect_to team_path(team), notice: 'New team liaison has been set.'
   end
 
   def accept_request

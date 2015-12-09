@@ -1,2 +1,12 @@
 $('#modal-window .modal-content').html('<%= escape_javascript(render partial: 'new') %>');
 $('#modal-window').modal('show')
+
+$(":checkbox").click(function(){
+  size = $(":checkbox:checked").size();
+  max_size = $(".new-team-form").data("max") - 1;
+  if ( size >= max_size ) {
+    $(":checkbox:not(:checked)").attr("disabled", true);
+  } else {
+    $(":checkbox").removeAttr("disabled");
+  }
+});

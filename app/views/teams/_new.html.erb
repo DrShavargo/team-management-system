@@ -8,7 +8,8 @@
     <h3 class='modal-title'>Setup Team</h3>
   </div>
   <div class="modal-body">
-    <div class="form-inputs">
+    <div  class="form-inputs new-team-form"
+          data-max="<%= @course.max_students %>">
       <%= f.input :name, multiple: true, label: 'Name' %>
       <% if @students.empty? %>
         There are no students without teams in this course!

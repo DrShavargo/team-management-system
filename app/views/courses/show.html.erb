@@ -1,6 +1,6 @@
 <div class="team-index">
   <div class="index-title">
-    <%= @course.course_code.upcase %> - <%= @course.instructor.name %>
+    <%= @course.course_code.upcase %> - Prof. <%= @course.instructor.name %>
   </div>
   <% if current_user.has_role?(:student) %>
     <div class="panel panel-default" data-user='<%= current_user.id %>'>

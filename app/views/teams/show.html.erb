@@ -67,7 +67,8 @@
                 <td class="table-action">
                   <% if current_user.has_role?(:instructor) %>
                     <%= remove_student_team_button(@team, student) %>
-                  <% elsif current_user.has_role?(:liaison, @team) %>
+                  <% elsif current_user.has_role?(:liaison, @team) &&
+                      !student.has_role?(:liaison, @team) %>
                     <%= set_as_liaison_team_button(@team, student) %>
                   <% end %>
                 </td>
