@@ -1,3 +1,8 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+$(document).ready ->
+
+  $(document).on 'click touchstart', '.my-team tr', (event) ->
+    unless $(event.target).closest('a')[0]
+      team_id = $(event.currentTarget).data("team")
+      if team_id
+        url = "http://" + location.host + "/teams/" + team_id
+        window.location = url

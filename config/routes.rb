@@ -9,6 +9,12 @@ Rails.application.routes.draw do
   resources :teams do
     member do
       post :request_join
+      post :leave
+      post :complete
+      post :incomplete
+      post :add_student
+      post :remove_student
+      post :set_as_liaison
     end
   end
   resource :account,    only: [:show, :update]

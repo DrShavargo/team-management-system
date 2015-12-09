@@ -4,7 +4,7 @@ class Team < ActiveRecord::Base
   belongs_to :course
   has_and_belongs_to_many :students, association_foreign_key: "user_id"
 
-  def check_if_complete
+  def check_and_set_status
     if students.count.between?(min_students, max_students)
       self.status = 'complete'
     else
@@ -12,8 +12,12 @@ class Team < ActiveRecord::Base
     end
   end
 
-  def override_status
-    status = 'complete'
+  def is_complete?
+    status == 'complete'
+  end
+
+  def set_status(as_status)
+    status = as_status
   end
 
   def generate_from_create(student_ids)
@@ -23,7 +27,7 @@ class Team < ActiveRecord::Base
         students << Student.find(student_id) unless student_id.blank?
       end
     end
-    check_if_complete
+    check_and_set_status
   end
 
   def min_students
@@ -32,6 +36,10 @@ class Team < ActiveRecord::Base
 
   def max_students
     course.max_students
+  end
+
+  def deadline
+    course.deadline
   end
 
   def check_if_orphaned_after_user_removed

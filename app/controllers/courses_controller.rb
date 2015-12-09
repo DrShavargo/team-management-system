@@ -54,6 +54,7 @@ class CoursesController < ApplicationController
   def register
     course = Course.find(course_id)
     current_user.courses << course unless current_user.courses.include?(course)
+    current_user.course_section = "A"
     redirect_to course_path(course)
   end
 

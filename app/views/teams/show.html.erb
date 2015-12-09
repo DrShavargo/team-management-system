@@ -1,0 +1,78 @@
+<div class="student-index">
+  <div class="index-title">
+    <%= @team.name %>
+  </div>
+  <% if current_user.has_role?(:instructor) %>
+    <% if @team.is_complete? %>
+      <%= link_to incomplete_team_path(@team),
+          class: 'btn btn-large btn-warning pull-right',
+          data: { confirm: 'Are you certain you want to invalidate this team?' },
+          id: 'incomplete-team-button' do %>
+            <i class="fa fa-minus"></i>
+            Invalidate Team
+          <% end %>
+    <% else %>
+      <%= link_to complete_team_path(@team),
+          class: 'btn btn-large btn-success pull-right',
+          data: { confirm: 'Are you certain you want to complete this team?' },
+          id: 'complete-team-button' do %>
+            <i class="fa fa-plus"></i>
+            Complete Team
+          <% end %>
+    <% end %>
+  <% end %>
+  <div class="panel panel-default" data-user='<%= current_user.id %>'>
+    <div class="panel-heading clearfix">
+      <% if current_user.has_role?(:instructor) %>
+        <%= link_to add_student_team_path(@team),
+          class: 'btn btn-large btn-primary pull-right',
+          data: { confirm: 'Are you certain you want to invalidate this team?' },
+          id: 'add-user-team-button' do %>
+            <i class="fa fa-user-plus"></i>
+            Add Student
+          <% end %>
+      <% else %>
+        <%= link_to leave_team_path(@team),
+          class: 'btn btn-large btn-danger pull-right',
+          data: { confirm: 'Are you certain you want to leave this team?' },
+          id: 'leave-team-button' do %>
+            <i class="fa fa-user-plus"></i>
+            Add Student
+          <% end %>
+      <% end %>
+      <div class="home-title">
+        Students
+      </div>
+    </div>
+    <div class="panel-body">
+      <% if @team.students.any? %>
+        <table class="student-list table table-striped table-hover">
+          <thead>
+            <th>Name</th>
+            <th>Student Number</th>
+            <th>Study Program</th>
+            <th>Course Section</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>
+            <% @team.students.each do |student| %>
+              <tr data-student="<%= student.id %>">
+                <td><%= student.name %></td>
+                <td><%= student.person_id %></td>
+                <td><%= student.study_program %></td>
+                <td><%= student.course_section %></td>
+                <td class="table-action">
+                  <% if current_user.has_role?(:instructor) %>
+                    <%= remove_student_team_button(@team, student) %>
+                  <% elsif current_user.has_role?(:liaison) %>
+                    <%= set_as_liaison_team_button(@team, studet) %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>

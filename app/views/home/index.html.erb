@@ -25,7 +25,8 @@
           </thead>
           <tbody>
             <% @courses.each do |course| %>
-              <tr data-course="<%= course.id %>">
+              <tr data-course="<%= course.id %>"
+                  data-registered="<%= current_user.is_registered?(course) %>">
                 <td class="course-id">
                   <%= course.course_code %>
                 </td>

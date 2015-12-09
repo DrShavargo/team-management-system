@@ -2,6 +2,7 @@ class TeamsController < ApplicationController
   respond_to :json, :js
 
   def show
+    @team = current_user.teams.where(team_id: team_id).first
   end
 
   def new
@@ -47,7 +48,25 @@ class TeamsController < ApplicationController
     end
   end
 
+  def complete
+  end
+
+  def incomplete
+  end
+
   def request_join
+  end
+
+  def leave
+  end
+
+  def add_student
+  end
+
+  def remove_student
+  end
+
+  def set_as_liaison
   end
 
   private

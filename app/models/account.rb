@@ -5,9 +5,9 @@ class Account
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :name, :email, :person_id
+  attr_accessor :name, :email, :person_id, :study_program
 
-  delegate :name, :email, :person_id, to: :user
+  delegate :name, :email, :person_id, :study_program, to: :user
 
   def persisted?
     false
@@ -21,10 +21,6 @@ class Account
     @user
   end
 
-  def email_settings
-    OpenStruct.new(@user.to_settings_hash[:email])
-  end
-
   def update_attributes(params = {})
     unless @user.update(account_params(params))
       self.errors.add(*@user.errors.first)
@@ -34,6 +30,6 @@ class Account
   private
 
     def account_params(params)
-      params.permit(:name, :email, :person_id, :phone, :time_zone, :default_address_id)
+      params.permit(:name, :email, :person_id, :study_program)
     end
 end

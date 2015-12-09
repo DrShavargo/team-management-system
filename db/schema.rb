@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151208000447) do
+ActiveRecord::Schema.define(version: 20151209145404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,11 +39,6 @@ ActiveRecord::Schema.define(version: 20151208000447) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
-
-  create_table "students", force: :cascade do |t|
-    t.string "study_program"
-    t.string "course_section"
-  end
 
   create_table "teams", force: :cascade do |t|
     t.integer  "team_id"
@@ -78,6 +73,8 @@ ActiveRecord::Schema.define(version: 20151208000447) do
     t.string   "name"
     t.string   "person_id"
     t.string   "type"
+    t.string   "study_program"
+    t.string   "course_section"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

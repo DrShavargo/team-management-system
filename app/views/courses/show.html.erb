@@ -1,4 +1,7 @@
-<div class="project-index">
+<div class="team-index">
+  <div class="index-title">
+    <%= @course.course_code.upcase %> - <%= @course.instructor.name %>
+  </div>
   <% if current_user.has_role?(:student) %>
     <div class="panel panel-default" data-user='<%= current_user.id %>'>
       <div class="panel-heading clearfix">
@@ -10,15 +13,15 @@
                 Create Team
           <% end %>
         <% end %>
-        <div class="project-title">
-          My Team - <%= @course.course_code.upcase %>
+        <div class="my-team-title">
+          My Team
         </div>
       </div>
       <div class="panel-body">
         <% if @my_team.blank? %>
           Create a team to get started!
         <% else %>
-          <table class="my-team-list table table-striped table-hover">
+          <table class="my-team table table-striped table-hover">
             <thead>
               <th>Team ID</th>
               <th>Name</th>
@@ -49,7 +52,7 @@
 
   <div class="panel panel-default" data-user='<%= current_user.id %>'>
     <div class="panel-heading clearfix">
-      <div class="project-title">
+      <div class="team-title">
         All Teams
       </div>
     </div>
@@ -58,7 +61,7 @@
         <% if current_user.has_role?(:instructor) ? 'No Teams have been created!' : 'Create a team to get started!' %>
         <% end %>
       <% else %>
-        <table class="course-list table table-striped table-hover">
+        <table class="team-list table table-striped table-hover">
           <thead>
             <th>Team ID</th>
             <th>Name</th>
@@ -74,8 +77,11 @@
                 <td><%= team.created_at %></td>
                 <td><%= team.status %></td>
                 <td class="table-action">
-                  <%= edit_course_button(course) %>
-                  <%= delete_course_button(course) %>
+                  <% if current_user.has_role?(:student) %>
+                    <% unless current_user.has_team?(@course) %>
+                      <%= request_join_team_button(team) %>
+                    <% end %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
