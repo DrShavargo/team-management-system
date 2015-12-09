@@ -102,7 +102,7 @@
             </thead>
             <tbody>
               <% @requests.each do |request| %>
-                <tr data-student="<%= student.id %>">
+                <tr data-request="<%= request.id %>">
                   <td><%= request.name %></td>
                   <td><%= request.person_id %></td>
                   <td><%= request.study_program %></td>

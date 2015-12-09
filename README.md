@@ -48,10 +48,13 @@ rails s
 
 If everything well went, you should be live!
 
-## Authors
+## Shoutouts
 
-[Georges-Antoine Assi](https://github.com/DrShavargo)  
-[Christopher Beauclair](https://github.com/Cbeaucl)
+Shoutout to my team who modeled the app and created the final document and diagrams for the class.
+
+* [Christopher Beauclair](https://github.com/Cbeaucl)
+* [Etienne Dumont](https://www.linkedin.com/in/étienne-dumont-72026797)
+* [Bowen Cheng](https://github.com/conan-z)
 
 ## License
 

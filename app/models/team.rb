@@ -2,6 +2,7 @@ class Team < ActiveRecord::Base
   resourcify
 
   belongs_to :course
+  has_many :requests
   has_and_belongs_to_many :students, association_foreign_key: "user_id"
 
   def check_and_set_status

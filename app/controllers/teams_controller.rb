@@ -4,6 +4,9 @@ class TeamsController < ApplicationController
   def show
     @team = Team.where(id: team_id).first
     @requests = Array.new
+    @team.requests.each do |request|
+      @requests.push(Student.where(id: request.requestor_id).first)
+    end
     if current_user.has_role?(:student)
       if current_user.teams.where(id: team_id).empty?
         redirect_to course_path(@team.course), alert: 'You cannot view this team!'
@@ -88,7 +91,15 @@ class TeamsController < ApplicationController
   end
 
   def request_join
-    binding.pry
+    team = Team.find(team_id)
+    request = team.requests.create({:requestor_id => current_user.id, :status => 'pending'})
+    request.save
+
+    if request.valid?
+      redirect_to course_path(team.course), notice: 'Your request has been sent!'
+    else
+      redirect_to course_path(team.course), alert: 'There was a problem sending your request.'
+    end
   end
 
   def leave
@@ -120,7 +131,7 @@ class TeamsController < ApplicationController
   def remove_student
     team = Team.find(team_id)
     course = team.course
-    student = Student.find(params[:student_id])
+    student = Student.find(student_id)
     team.students.delete(student)
     if (team.check_if_orphaned_after_user_removed)
       redirect_to course_path(course), notice: 'Student has been removed fromt he team.'
@@ -131,14 +142,22 @@ class TeamsController < ApplicationController
 
   def set_as_liaison
     team = Team.find(team_id)
-    student = Student.find(params[:student_id])
+    student = Student.find(student_id)
     current_user.remove_role(:liaison, team)
     student.add_role(:liaison, team)
     redirect_to team_path(team), notice: 'New team liaison has been set.'
   end
 
   def accept_request
-    binding.pry
+    team = Team.find(team_id)
+    if team.is_complete?
+      redirect_to team_path(team), alert: 'Cannot add new member to full team!'
+    else
+      team.students << Student.find(student_id)
+      request = team.requests.where(requestor_id: student_id).first
+      request.destroy
+      redirect_to team_path(team), notice: 'New member added to team.'
+    end
   end
 
   private
@@ -153,5 +172,9 @@ class TeamsController < ApplicationController
 
     def team_id
       params.require(:id)
+    end
+
+    def student_id
+      params.require(:student_id)
     end
 end

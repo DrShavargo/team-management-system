@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  respond_to :json, :js
+  respond_to :js
 
   def show
     @course = current_user.courses.find(course_id)

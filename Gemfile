@@ -27,8 +27,11 @@ group :development, :test do
   gem 'thin'
   gem 'better_errors', '~> 2.1.0'
   gem 'pry-rails'
+  gem 'letter_opener'
 end
 
 group :production do
   gem 'puma'
+  # TODO Replace with Mandrill
+  gem 'letter_opener'
 end

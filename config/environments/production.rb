@@ -81,4 +81,7 @@ Rails.application.configure do
   logger.level = logger.class.const_get(config.log_level.to_s.upcase)
 
   config.logger = ActiveSupport::TaggedLogging.new(logger)
+
+  # TODO Replace with Mandrill
+  config.action_mailer.delivery_method = :letter_opener
 end
