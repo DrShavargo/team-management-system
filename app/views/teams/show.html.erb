@@ -28,19 +28,21 @@
       <% if current_user.has_role?(:instructor) %>
         <%= link_to add_student_team_path(@team),
           class: 'btn btn-large btn-primary pull-right',
-          data: { confirm: 'Are you certain you want to invalidate this team?' },
+          data: { toggle: 'modal', target: '#modal-window', remote: true },
           id: 'add-user-team-button' do %>
             <i class="fa fa-user-plus"></i>
             Add Student
           <% end %>
       <% else %>
-        <%= link_to leave_team_path(@team),
-          class: 'btn btn-large btn-danger pull-right',
-          method: :post,
-          data: { confirm: 'Are you certain you want to leave this team?' },
-          id: 'leave-team-button' do %>
-            <i class="fa fa-user-plus"></i>
-            Leave Team
+        <% unless @team.deadline_passed? %>
+          <%= link_to leave_team_path(@team),
+            class: 'btn btn-large btn-danger pull-right',
+            method: :post,
+            data: { confirm: 'Are you certain you want to leave this team?' },
+            id: 'leave-team-button' do %>
+              <i class="fa fa-user-plus"></i>
+              Leave Team
+            <% end %>
           <% end %>
       <% end %>
       <div class="team-title">
@@ -65,11 +67,13 @@
                 <td><%= student.study_program %></td>
                 <td><%= student.course_section %></td>
                 <td class="table-action">
-                  <% if current_user.has_role?(:instructor) %>
-                    <%= remove_student_team_button(@team, student) %>
-                  <% elsif current_user.has_role?(:liaison, @team) &&
-                      !student.has_role?(:liaison, @team) %>
-                    <%= set_as_liaison_team_button(@team, student) %>
+                  <% unless @team.deadline_passed? %>
+                    <% if current_user.has_role?(:instructor) %>
+                      <%= remove_student_team_button(@team, student) %>
+                    <% elsif current_user.has_role?(:liaison, @team) &&
+                        !student.has_role?(:liaison, @team) %>
+                      <%= set_as_liaison_team_button(@team, student) %>
+                    <% end %>
                   <% end %>
                 </td>
               </tr>
@@ -104,8 +108,10 @@
                   <td><%= request.study_program %></td>
                   <td><%= request.course_section %></td>
                   <td class="table-action">
-                    <% if current_user.has_role?(:liaison, @team) %>
-                      <%= accept_request_team_button(@team, request) %>
+                    <% unless @team.deadline_passed? %>
+                      <% if current_user.has_role?(:liaison, @team) %>
+                        <%= accept_request_team_button(@team, request) %>
+                      <% end %>
                     <% end %>
                   </td>
                 </tr>

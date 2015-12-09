@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       post  :complete
       post  :incomplete
       get   :add_student
+      post  :add_student
       post  :remove_student
       post  :set_as_liaison
       post  :accept_request

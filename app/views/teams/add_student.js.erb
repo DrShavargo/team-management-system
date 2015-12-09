@@ -1,0 +1,12 @@
+$('#modal-window .modal-content').html('<%= escape_javascript(render partial: 'add_student') %>');
+$('#modal-window').modal('show')
+
+$(":checkbox").click(function(){
+  size = $(":checkbox:checked").size();
+  max_size = $(".add-students-form").data("max");
+  if ( size >= max_size ) {
+    $(":checkbox:not(:checked)").attr("disabled", true);
+  } else {
+    $(":checkbox").removeAttr("disabled");
+  }
+});

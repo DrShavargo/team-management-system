@@ -39,6 +39,7 @@ class CoursesController < ApplicationController
     convert_date
     course = current_user.courses.find(course_id)
     if course.update(courses_params)
+      course.update_team_statuses
       redirect_to root_path, notice: 'The course was updated successfully!'
     else
       redirect_to root_path, alert: 'The course failed to update.'

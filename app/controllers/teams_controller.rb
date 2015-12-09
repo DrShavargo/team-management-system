@@ -1,9 +1,14 @@
 class TeamsController < ApplicationController
-  respond_to :json, :js
+  respond_to :html, :js
 
   def show
     @team = Team.where(id: team_id).first
     @requests = Array.new
+    if current_user.has_role?(:student)
+      if current_user.teams.where(id: team_id).empty?
+        redirect_to course_path(@team.course), alert: 'You cannot view this team!'
+      end
+    end
   end
 
   def new
@@ -59,7 +64,7 @@ class TeamsController < ApplicationController
   end
 
   def complete
-    team = Team.find(params[:id])
+    team = Team.find(team_id)
     team.set_status('complete')
     team.save
 
@@ -71,7 +76,7 @@ class TeamsController < ApplicationController
   end
 
   def incomplete
-    team = Team.find(params[:id])
+    team = Team.find(team_id)
     team.set_status('incomplete')
     team.save
 
@@ -87,7 +92,7 @@ class TeamsController < ApplicationController
   end
 
   def leave
-    team = Team.find(params[:id])
+    team = Team.find(team_id)
     course = team.course
     team.students.delete(current_user)
     current_user.remove_role(:liaison, team) if current_user.has_role?(:liaison, team)
@@ -96,11 +101,24 @@ class TeamsController < ApplicationController
   end
 
   def add_student
-    binding.pry
+    if request.get?
+      @team = Team.find(team_id)
+      @students = Array.new
+      @team.course.students.each do |student|
+        @students.push(student) unless student.has_team?(@team.course)
+      end
+    elsif request.post?
+      team = Team.find(team_id)
+      params[:team][:student_ids] = params[:team][:student_ids][0, team.max_students - team.students.count]
+      params[:team][:student_ids].each do |student_id|
+        team.students << Student.find(student_id) unless student_id.blank?
+      end
+      redirect_to team_path(team), notice: 'Students have been added successfully!'
+    end
   end
 
   def remove_student
-    team = Team.find(params[:id])
+    team = Team.find(team_id)
     course = team.course
     student = Student.find(params[:student_id])
     team.students.delete(student)
@@ -112,7 +130,7 @@ class TeamsController < ApplicationController
   end
 
   def set_as_liaison
-    team = Team.find(params[:id])
+    team = Team.find(team_id)
     student = Student.find(params[:student_id])
     current_user.remove_role(:liaison, team)
     student.add_role(:liaison, team)

@@ -34,6 +34,10 @@ class Team < ActiveRecord::Base
     course.deadline
   end
 
+  def deadline_passed?
+    deadline < DateTime.now
+  end
+
   def check_if_orphaned_after_user_removed
     if students.any?
       unless students.with_role(:liaison, self).any?
