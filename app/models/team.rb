@@ -17,7 +17,7 @@ class Team < ActiveRecord::Base
   end
 
   def set_status(as_status)
-    status = as_status
+    self.status = as_status
   end
 
   def generate_from_create(student_ids)
@@ -44,8 +44,8 @@ class Team < ActiveRecord::Base
 
   def check_if_orphaned_after_user_removed
     if students.any?
-      unless students.with_role(:liaison).any?
-        students.first.set_role(:liaison)
+      unless students.with_role(:liaison, self).any?
+        students.first.set_role(:liaison, self)
       end
     else
       self.destroy

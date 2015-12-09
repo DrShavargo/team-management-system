@@ -21,7 +21,7 @@ module TeamsHelper
       method: :post,
       data: { confirm: 'Are you certain you want to remove this student from this team?' },
       id: 'remove-student-team-button' do
-        content_tag :i, '', class: 'fa fa-user-minus'
+        content_tag :i, '', class: 'fa fa-user-times'
     end
   end
 
@@ -31,6 +31,15 @@ module TeamsHelper
       data: { confirm: 'Are you certain you want to set this student as liaison?' },
       id: 'set-liaison-team-button' do
         content_tag :i, '', class: 'fa fa-link'
+    end
+  end
+
+  def accept_request_team_button(team, student)
+    link_to accept_request_team_path(team, student_id: student.id), class: 'btn btn-mini',
+      method: :post,
+      data: { confirm: 'Are you certain you want to accept this request?' },
+      id: 'accept-request-team-button' do
+        content_tag :i, '', class: 'fa fa-user-plus'
     end
   end
 end

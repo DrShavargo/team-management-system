@@ -2,7 +2,8 @@ class TeamsController < ApplicationController
   respond_to :json, :js
 
   def show
-    @team = current_user.teams.where(team_id: team_id).first
+    @team = Team.where(id: team_id).first
+    @requests = Array.new
   end
 
   def new
@@ -49,30 +50,66 @@ class TeamsController < ApplicationController
   end
 
   def complete
+    team = Team.find(params[:id])
+    team.set_status('complete')
+    team.save
+
+    if team.valid?
+      redirect_to team_path(team), notice: 'The team\'s status was updated successfully!'
+    else
+      redirect_to team_path(team), alert: 'The team\'s status failed to update.'
+    end
   end
 
   def incomplete
+    team = Team.find(params[:id])
+    team.set_status('incomplete')
+    team.save
+
+    if team.valid?
+      redirect_to team_path(team), notice: 'The team\'s status was updated successfully!'
+    else
+      redirect_to team_path(team), alert: 'The team\'s status failed to update.'
+    end
   end
 
   def request_join
+    binding.pry
   end
 
   def leave
+    team = Team.find(params[:id])
+    course = team.course
+    team.students.delete(current_user)
+    current_user.remove_role(:liaison, team) if current_user.has_role?(:liaison, team)
+    team.check_if_orphaned_after_user_removed
+    redirect_to course_path(course), notice: 'You have been removed from the team.'
   end
 
   def add_student
+    binding.pry
   end
 
   def remove_student
+    team = Team.find(params[:id])
+    student = Student.find(params[:student_id])
+    team.students.delete(student)
+    team.check_if_orphaned_after_user_removed
+    redirect_to team_path(team), notice: 'Student has been removed fromt he team.'
   end
 
   def set_as_liaison
+    binding.pry
+  end
+
+  def accept_request
+    binding.pry
   end
 
   private
 
     def team_params
-      params.require(:team).permit(:course_id, :name, :student_ids)
+      params.require(:team).permit(:course_id, :name, :student_ids => [])
     end
 
     def course_id

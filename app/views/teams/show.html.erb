@@ -1,26 +1,28 @@
 <div class="student-index">
   <div class="index-title">
     <%= @team.name %>
-  </div>
-  <% if current_user.has_role?(:instructor) %>
-    <% if @team.is_complete? %>
-      <%= link_to incomplete_team_path(@team),
-          class: 'btn btn-large btn-warning pull-right',
-          data: { confirm: 'Are you certain you want to invalidate this team?' },
-          id: 'incomplete-team-button' do %>
-            <i class="fa fa-minus"></i>
-            Invalidate Team
-          <% end %>
-    <% else %>
-      <%= link_to complete_team_path(@team),
-          class: 'btn btn-large btn-success pull-right',
-          data: { confirm: 'Are you certain you want to complete this team?' },
-          id: 'complete-team-button' do %>
-            <i class="fa fa-plus"></i>
-            Complete Team
-          <% end %>
+    <% if current_user.has_role?(:instructor) %>
+      <% if @team.is_complete? %>
+        <%= link_to incomplete_team_path(@team),
+            class: 'btn btn-large btn-warning pull-right',
+            method: :post,
+            data: { confirm: 'Are you certain you want to invalidate this team?' },
+            id: 'incomplete-team-button' do %>
+              <i class="fa fa-minus"></i>
+              Invalidate Team
+            <% end %>
+      <% else %>
+        <%= link_to complete_team_path(@team),
+            class: 'btn btn-large btn-success pull-right',
+            method: :post,
+            data: { confirm: 'Are you certain you want to complete this team?' },
+            id: 'complete-team-button' do %>
+              <i class="fa fa-plus"></i>
+              Complete Team
+            <% end %>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
   <div class="panel panel-default" data-user='<%= current_user.id %>'>
     <div class="panel-heading clearfix">
       <% if current_user.has_role?(:instructor) %>
@@ -34,13 +36,14 @@
       <% else %>
         <%= link_to leave_team_path(@team),
           class: 'btn btn-large btn-danger pull-right',
+          method: :post,
           data: { confirm: 'Are you certain you want to leave this team?' },
           id: 'leave-team-button' do %>
             <i class="fa fa-user-plus"></i>
-            Add Student
+            Leave Team
           <% end %>
       <% end %>
-      <div class="home-title">
+      <div class="team-title">
         Students
       </div>
     </div>
@@ -64,8 +67,8 @@
                 <td class="table-action">
                   <% if current_user.has_role?(:instructor) %>
                     <%= remove_student_team_button(@team, student) %>
-                  <% elsif current_user.has_role?(:liaison) %>
-                    <%= set_as_liaison_team_button(@team, studet) %>
+                  <% elsif current_user.has_role?(:liaison, @team) %>
+                    <%= set_as_liaison_team_button(@team, student) %>
                   <% end %>
                 </td>
               </tr>
@@ -75,4 +78,43 @@
       <% end %>
     </div>
   </div>
+  <% if current_user.has_role?(:student) %>
+    <div class="panel panel-default" data-user='<%= current_user.id %>'>
+      <div class="panel-heading clearfix">
+        <div class="team-title">
+          Requests
+        </div>
+      </div>
+      <div class="panel-body">
+        <% if @requests.any? %>
+          <table class="student-list table table-striped table-hover">
+            <thead>
+              <th>Name</th>
+              <th>Student Number</th>
+              <th>Study Program</th>
+              <th>Course Section</th>
+              <th>Actions</th>
+            </thead>
+            <tbody>
+              <% @requests.each do |request| %>
+                <tr data-student="<%= student.id %>">
+                  <td><%= request.name %></td>
+                  <td><%= request.person_id %></td>
+                  <td><%= request.study_program %></td>
+                  <td><%= request.course_section %></td>
+                  <td class="table-action">
+                    <% if current_user.has_role?(:liaison, @team) %>
+                      <%= accept_request_team_button(@team, request) %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          No requests at this time!
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>

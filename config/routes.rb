@@ -8,13 +8,14 @@ Rails.application.routes.draw do
   resources :students,  only: [:index, :create]
   resources :teams do
     member do
-      post :request_join
-      post :leave
-      post :complete
-      post :incomplete
-      post :add_student
-      post :remove_student
-      post :set_as_liaison
+      post  :request_join
+      post  :leave
+      post  :complete
+      post  :incomplete
+      get   :add_student
+      post  :remove_student
+      post  :set_as_liaison
+      post  :accept_request
     end
   end
   resource :account,    only: [:show, :update]
