@@ -7,3 +7,5 @@ $(document).ready ->
       if course_id && registered
         url = "http://" + location.host + "/courses/" + course_id
         window.location = url
+
+  $(document).on 'click', '.js-message-can-close', (e) -> $(this).slideUp()

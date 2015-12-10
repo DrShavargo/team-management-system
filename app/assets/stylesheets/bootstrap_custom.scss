@@ -1,0 +1,53 @@
+$brand-primary: #337AB7;
+$brand-success: #5CB85C;
+$brand-danger:  #D9534F;
+$brand-warning: #F0AD4E;
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: bold !important;
+}
+
+.message-success,
+.message-danger,
+.message-info,
+.message-warning {
+  text-align: center;
+  padding: 10px;
+  margin: 0px -15px 0px -15px;
+  color: white;
+}
+
+.message-danger {
+  background-color: $brand-danger;
+  border-top: 1px solid darken($brand-danger, 15);
+}
+
+.message-success {
+  background-color: $brand-success;
+  border-top: 1px solid darken($brand-success, 15);
+}
+
+.message-info {
+  background-color: $brand-info;
+  border-top: 1px solid darken($brand-info, 15);
+}
+
+.message-warning {
+  background-color: $brand-warning;
+  border-top: 1px solid darken($brand-warning, 15);
+}
+
+.message-can-close:hover {
+  cursor: pointer;
+  position: relative;
+
+  &:after {
+    left: 0;
+    right: 0;
+    position: absolute;
+    top: -1px;
+    bottom: 0;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.2);
+  }
+}

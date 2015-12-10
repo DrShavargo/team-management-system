@@ -15,7 +15,10 @@
     </div>
     <div class="panel-body">
       <% if @courses.empty? %>
-        <% if current_user.has_role?(:instructor) ? 'Create a course to get started!' : 'No course has beed created yet, be patient!' %>
+        <% if current_user.has_role?(:instructor) %>
+          Create a course to get started.
+        <% else %>
+          No course has beed created yet, be patient!
         <% end %>
       <% else %>
         <table class="course-list table table-striped table-hover">

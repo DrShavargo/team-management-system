@@ -26,7 +26,9 @@ class TeamsController < ApplicationController
 
   def create
     course = current_user.courses.find(team_params[:course_id])
-    params[:team][:student_ids] = params[:team][:student_ids][0, course.max_students]
+    unless params[:team][:student_ids].nil?
+      params[:team][:student_ids] = params[:team][:student_ids][0, course.max_students]
+    end
     team = course.teams.create(team_params)
     team.students << current_user
     team.team_id = team.id
@@ -145,6 +147,7 @@ class TeamsController < ApplicationController
     student = Student.find(student_id)
     current_user.remove_role(:liaison, team)
     student.add_role(:liaison, team)
+    binding.pry
     redirect_to team_path(team), notice: 'New team liaison has been set.'
   end
 
