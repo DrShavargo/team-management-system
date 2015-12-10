@@ -32,6 +32,4 @@ end
 
 group :production do
   gem 'puma'
-  # TODO Replace with Mandrill
-  gem 'letter_opener'
 end
