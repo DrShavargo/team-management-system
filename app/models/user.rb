@@ -3,10 +3,9 @@ class User < ActiveRecord::Base
 
   after_create :default_role
 
-  # TODO Add :confirmable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :validatable
+         :validatable, :confirmable
 
   def user_identifier
     name || email
