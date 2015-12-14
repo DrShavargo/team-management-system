@@ -3,7 +3,7 @@
 [![Code Climate](https://codeclimate.com/github/DrShavargo/team-management-system.svg)](https://codeclimate.com/github/DrShavargo/team-management-system)
 [![Security](https://hakiri.io/github/DrShavargo/team-management-system/master.svg)](https://hakiri.io/github/DrShavargo/team-management-system/master)
 
-A system to oversee student teams, built on Rails, for a software design class.
+A system to oversee student teams, built on Rails, for a software design class (SEG3102)
 
 #### Ruby Version
 2.2.1
