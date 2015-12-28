@@ -36,7 +36,7 @@
                 <td><%= @my_team.team_id %></td>
                 <td><%= @my_team.name %></td>
                 <td><%= @my_team.created_at %></td>
-                <td><%= @my_team.status %></td>
+                <td><%= @my_team.status.capitalize %></td>
                 <% if current_user.has_role?(:liaison, @my_team) %>
                   <td class="table-action">
                     <%= edit_team_button(@my_team) %>
@@ -52,6 +52,12 @@
 
   <div class="panel panel-default" data-user='<%= current_user.id %>'>
     <div class="panel-heading clearfix">
+      <!-- <div class="col-lg-3 pull-right team-search-div">
+        <div class="left-inner-addon ">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" id='team-index-search'>
+        </div>
+      </div> -->
       <div class="team-title">
         All Teams
       </div>
@@ -75,7 +81,7 @@
                 <td><%= team.team_id %></td>
                 <td><%= team.name %></td>
                 <td><%= team.created_at %></td>
-                <td><%= team.status %></td>
+                <td><%= team.status.capitalize %></td>
                 <td class="table-action">
                   <% if current_user.has_role?(:student) %>
                     <% unless current_user.has_team?(@course) %>

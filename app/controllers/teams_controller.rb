@@ -33,10 +33,8 @@ class TeamsController < ApplicationController
     team.students << current_user
     team.team_id = team.id
 
-    valid_student_count = team.check_and_set_status
-    if valid_student_count
+    if team.check_and_set_status
       team.save
-
       current_user.add_role(:liaison, team)
 
       if team.valid?

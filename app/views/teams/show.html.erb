@@ -6,7 +6,11 @@
         <%= link_to incomplete_team_path(@team),
             class: 'btn btn-large btn-warning pull-right',
             method: :post,
-            data: { confirm: 'Are you certain you want to invalidate this team?' },
+            data: {
+              confirm: 'Are you certain you want to invalidate this team?',
+              ok: 'Yes',
+              cancel: 'No'
+            },
             id: 'incomplete-team-button' do %>
               <i class="fa fa-minus"></i>
               Invalidate Team
@@ -15,7 +19,10 @@
         <%= link_to complete_team_path(@team),
             class: 'btn btn-large btn-success pull-right',
             method: :post,
-            data: { confirm: 'Are you certain you want to complete this team?' },
+            data: { confirm: 'Are you certain you want to complete this team?',
+              ok: 'Yes',
+              cancel: 'No'
+            },
             id: 'complete-team-button' do %>
               <i class="fa fa-plus"></i>
               Complete Team
@@ -38,7 +45,10 @@
           <%= link_to leave_team_path(@team),
             class: 'btn btn-large btn-danger pull-right',
             method: :post,
-            data: { confirm: 'Are you certain you want to leave this team?' },
+            data: { confirm: 'Are you certain you want to leave this team?',
+              ok: 'Yes',
+              cancel: 'No'
+            },
             id: 'leave-team-button' do %>
               <i class="fa fa-user-plus"></i>
               Leave Team

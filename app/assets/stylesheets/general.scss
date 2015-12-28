@@ -1,0 +1,13 @@
+.left-inner-addon {
+  position: relative;
+
+  input {
+    padding-left: 30px;
+  }
+
+  i {
+    position: absolute;
+    padding: 10px 12px;
+    pointer-events: none;
+  }
+}

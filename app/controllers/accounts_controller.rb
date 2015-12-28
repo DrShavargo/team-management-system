@@ -16,7 +16,7 @@ class AccountsController < ApplicationController
   def update
     @account = Account.new(current_user)
     @account.update_attributes(account_params)
-    if @account.errors.count == 0
+    if @account.errors.empty?
       respond_to do |format|
         format.html {
           flash[:success] = "Account Updated Successfully."

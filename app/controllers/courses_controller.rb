@@ -64,6 +64,7 @@ class CoursesController < ApplicationController
     course.students.delete(current_user)
 
     team = current_user.teams.where(course_id: course.id).first
+
     unless team.blank?
       team.students.delete(current_user)
       current_user.remove_role(:liaison, team) if current_user.has_role?(:liaison, team)
