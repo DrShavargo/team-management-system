@@ -21,28 +21,35 @@ module CoursesHelper
   end
 
   def register_course_button(course)
-    link_to register_course_path(course), class: 'btn btn-mini',
-      method: :post,
-      data: {
+    path = 'register_course_path'
+    data = {
         confirm: 'Are you certain you want to register for this course?',
         ok: 'Yes',
         cancel: 'No'
-      },
-      id: 'register-course-button' do
-        content_tag :i, '', class: 'fa fa-user-plus', 'title' => 'Register'
-    end
+      }
+    title = 'Register'
+    icon = 'fa fa-user-plus'
+    course_link_to(course, path, data, title, icon)
   end
 
   def unregister_course_button(course)
-    link_to unregister_course_path(course), class: 'btn btn-mini',
+    path = 'unregister_course_path'
+    data = {
+          confirm: 'Are you certain you want to unregister from this course?',
+          ok: 'Yes',
+          cancel: 'No'
+        }
+    title = 'Unregister'
+    icon = 'fa fa-user-times'
+    course_link_to(course, path, data, title, icon)
+  end
+
+  def course_link_to(course, path, data, title, icon)
+    link_to public_send(path, course), class: 'btn btn-mini',
       method: :post,
-      data: {
-        confirm: 'Are you certain you want to unregister from this course?',
-        ok: 'Yes',
-        cancel: 'No'
-      },
-      id: 'unregister-course-button' do
-        content_tag :i, '', class: 'fa fa-user-times', 'title' => 'Unregister'
-    end
+      data: data,
+      id: 'accept-button' do
+          content_tag :i, '', class: icon, 'title' => title
+        end
   end
 end

@@ -25,47 +25,49 @@ module TeamsHelper
   end
 
   def remove_student_team_button(team, student)
-    unless team.deadline_passed?
-      link_to remove_student_team_path(team, student_id: student.id), class: 'btn btn-mini',
-        method: :post,
-        data: {
+    path = 'remove_student_team_path'
+    data = {
           confirm: 'Are you certain you want to remove this student from this team?',
           ok: 'Yes',
           cancel: 'No'
-        },
-        id: 'remove-student-team-button' do
-          content_tag :i, '', class: 'fa fa-user-times', 'title' => 'Remove'
-      end
-    end
+        }
+    title = 'Remove'
+    icon = 'fa fa-user-times'
+    dynamic_link_to(team, student, path, data, title, icon)
   end
 
   def set_as_liaison_team_button(team, student)
-    unless team.deadline_passed?
-      link_to set_as_liaison_team_path(team, student_id: student.id), class: 'btn btn-mini',
-        method: :post,
-        data: {
+    path = 'set_as_liaison_team_path'
+    data = {
           confirm: 'Are you certain you want to set this student as liaison?',
           ok: 'Yes',
           cancel: 'No'
-        },
-        id: 'set-liaison-team-button' do
-          content_tag :i, '', class: 'fa fa-link', 'title' => 'Set as Liaison'
-      end
-    end
+        }
+    title = 'Set as Liaison'
+    icon = 'fa fa-link'
+    dynamic_link_to(team, student, path, data, title, icon)
   end
 
   def accept_request_team_button(team, student)
+    path = 'accept_request_team_path'
+    data = {
+            confirm: 'Are you certain you want to accept this request?',
+            ok: 'Yes',
+            cancel: 'No'
+          }
+    title = 'Accept'
+    icon = 'fa fa-user-plus'
+    dynamic_link_to(team, student, path, data, title, icon)
+  end
+
+  def dynamic_link_to(team, student, path, data, title, icon)
     unless team.deadline_passed?
-      link_to accept_request_team_path(team, student_id: student.id), class: 'btn btn-mini',
+      link_to public_send(path, team, student_id: student.id), class: 'btn btn-mini',
         method: :post,
-        data: {
-          confirm: 'Are you certain you want to accept this request?',
-          ok: 'Yes',
-          cancel: 'No'
-        },
-        id: 'accept-request-team-button' do
-          content_tag :i, '', class: 'fa fa-user-plus', 'title' => 'Accept'
-      end
+        data: data,
+        id: 'accept-button' do
+            content_tag :i, '', class: icon, 'title' => title
+          end
     end
   end
 end

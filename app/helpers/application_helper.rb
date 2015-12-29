@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def user_dropdown_text
-    content = content_tag :i, '', class: 'fa fa-lg fa-navicon', title: 'Menu'
+    content_tag :i, '', class: 'fa fa-lg fa-navicon', title: 'Menu'
   end
 
   def user_dropdown_menu
