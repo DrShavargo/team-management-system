@@ -6,7 +6,7 @@ class Team < ActiveRecord::Base
   has_and_belongs_to_many :students, association_foreign_key: "user_id"
 
   def check_and_set_status
-    status = students.count > min_students ? 'complete' : 'incomplete'
+    self.status = (students.count > min_students) ? 'complete' : 'incomplete'
   end
 
   def is_complete?

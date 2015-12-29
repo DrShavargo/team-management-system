@@ -50,6 +50,6 @@ module CoursesHelper
       data: data,
       id: 'accept-button' do
           content_tag :i, '', class: icon, 'title' => title
-        end
+    end
   end
 end
