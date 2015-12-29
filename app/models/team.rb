@@ -6,13 +6,7 @@ class Team < ActiveRecord::Base
   has_and_belongs_to_many :students, association_foreign_key: "user_id"
 
   def check_and_set_status
-    if students.count > min_students
-      self.status = 'complete'
-    else
-      self.status = 'incomplete'
-    end
-
-    !(students.count > max_students)
+    status = students.count > min_students ? 'complete' : 'incomplete'
   end
 
   def is_complete?
@@ -37,6 +31,20 @@ class Team < ActiveRecord::Base
 
   def deadline_passed?
     deadline < DateTime.now
+  end
+
+  def get_students
+    students = Array.new
+    course.students.each do |student|
+      students.push(student) unless student.has_team?(course)
+    end
+    students
+  end
+
+  def add_students_by_id(student_ids)
+    student_ids.each do |student_id|
+      students << Student.find(student_id) unless student_id.blank?
+    end
   end
 
   def check_if_orphaned_after_user_removed

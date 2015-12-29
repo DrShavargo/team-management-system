@@ -30,19 +30,15 @@ class TeamsController < ApplicationController
   end
 
   def create
-    course = current_user.courses.find(team_params[:course_id])
-    unless params[:team][:student_ids].nil?
-      params[:team][:student_ids] = params[:team][:student_ids][0, course.max_students]
-    end
-    team = course.teams.create(team_params)
-    team.students << current_user
-    team.team_id = team.id
-
-    if team.check_and_set_status
+    course = current_user.courses.find(team_course_id)
+    if course.max_students > student_ids.count
+      team = course.teams.create(team_params)
+      team.students << current_user
+      team.check_and_set_status
       team.save
-      current_user.add_role(:liaison, team)
 
       if team.valid?
+        current_user.add_role(:liaison, team)
         flash[:success] = "Team created successfully!"
         redirect_to team_path(team)
       else
@@ -50,8 +46,7 @@ class TeamsController < ApplicationController
         redirect_to course_path(course)
       end
     else
-      team.destroy
-      redirect_to course_path(course), alert: 'Too many students selected.'
+      redirect_to course_path(course), alert: 'Too many students selected!'
     end
   end
 
@@ -97,16 +92,12 @@ class TeamsController < ApplicationController
 
   def add_student
     if request.get?
-      @team.course.students.each do |student|
-        @students.push(student) unless student.has_team?(@team.course)
-      end
+      @student = @team.get_students
     elsif request.post?
       if @team.max_students < @team.students.count + student_ids.count
         redirect_to team_path(@team), alert: 'Too many students selected!'
       else
-        student_ids.each do |student_id|
-          @team.students << Student.find(student_id) unless student_id.blank?
-        end
+        @team.add_students_by_id(student_ids)
         redirect_to team_path(@team), notice: 'Students have been added successfully.'
       end
     end
@@ -146,6 +137,10 @@ class TeamsController < ApplicationController
 
     def course_id
       params.require(:course_id)
+    end
+
+    def team_course_id
+      params.require(:team).permit(:course_id)[:course_id]
     end
 
     def team_id
